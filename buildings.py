@@ -21,24 +21,16 @@ import numpy as np
 import scipy.io as sio
 from pprint import pprint
 
-class BuildingLoad:
-    def __init__(self, height, width, depth, scale, 
-                 tap_locations, duration, sampling_frequency, 
-                 air_density, wind_speed, wind_direction,  
-                 exposure, pressure_coeffeints, data_type, units):
+class windLoadData:
+    def __init__(self, scale, exposure, data_type, air_density, units):
         
-        self.height = height
-        self.width = width
-        self.depth = depth
+    # def __init__(self, height, width, depth, scale, 
+    #              tap_locations, duration, sampling_frequency, 
+    #              air_density, wind_speed, wind_direction,  
+    #              exposure, data_type, units):
         self.scale = scale
-        self.tap_locations = tap_locations
-        self.duration = duration
-        self.sampling_frequency = sampling_frequency
         self.air_density = air_density
-        self.wind_speed = wind_speed
-        self.wind_direction = wind_direction
         self.exposure = exposure
-        self.pressure_coeffeints = pressure_coeffeints
         self.data_type = data_type
         self.units = units
 
@@ -159,7 +151,64 @@ class BuildingLoad:
     def ref_pressure(self):
         return 0.5*self.rho*self.wind_speed**2.0;
 
-class LowRiseLoad(BuildingLoad):
+class HighRiseData(windLoadData):
+    def __init__(self, nstory):
+        self.nstory = nstory
+    
+    ### Functions 
+    def write_to_json(self, path):
+        raise NotImplementedError
+        
+    def read_json(self, path):
+        raise NotImplementedError
+    
+    def parse_matlab_file(self, file_name):
+
+        mat_contents = sio.loadmat(file_name)
+        
+        self.height =  mat_contents['Building_height'][0][0]        
+        self.width =  mat_contents['Building_breadth'][0][0]
+        self.depth = mat_contents['Building_depth'][0][0]
+
+        self.duration = mat_contents['Sample_period'][0][0]
+        self.sampling_frequency = mat_contents['Sample_frequency'][0][0]
+        self.wind_direction = mat_contents['Wind_direction_angle'][0][0]
+        self.wind_speed = float(mat_contents['Uh_AverageWindSpeed'][0])
+    
+        self.tap_locations = mat_contents['Location_of_measured_points'];
+        self.ntaps = self.tap_locations.shape[1];
+        self.pressure_coeffeints = mat_contents['Wind_pressure_coefficients'];
+
+    
+        # get xMax and yMax .. assuming first sensor is 1m from building edge
+        # location on faces cannot be obtained from the inputs, at least not with 
+        # current documentation, awaing email from TPU
+    
+        xMax = max(self.tap_locations[0]) + 1
+        yMax = max(self.tap_locations[1]) + 1
+        
+        for tap in range(self.ntaps):
+            tag = self.tap_locations[2][tap]
+            xLoc = self.tap_locations[0][tap]
+            yLoc = self.tap_locations[1][tap]
+            face = self.tap_locations[3][tap]
+    
+            X = xLoc
+            Y = yLoc
+            if (face == 2):
+                xLoc = X - breadth
+            elif (face == 3):
+                xLoc = X - breadth - depth
+            elif (face == 4):
+                xLoc = X - 2*breadth - depth
+            
+            if (loc == numLocations-1):
+                file.write("{\"id\":%d,\"xLoc\":%f,\"yLoc\":%f,\"face\":%d}]" % (tag, xLoc, yLoc, face))
+            else:
+                file.write("{\"id\":%d,\"xLoc\":%f,\"yLoc\":%f,\"face\":%d}," % (tag, xLoc, yLoc, face))
+
+
+class LowRiseData(windLoadData):
     def __init__(self, roof_type, pitch_angle):
         self.roof_type = roof_type
         self.pitch_angle = pitch_angle
@@ -169,12 +218,10 @@ class LowRiseLoad(BuildingLoad):
     
     #Functions 
     def write_to_json(self, path):
-    
         NotImplemented
         
     #Functions 
     def read_json(self, path):
-    
         NotImplemented
     
     def parse_matlab_file(self, path):
