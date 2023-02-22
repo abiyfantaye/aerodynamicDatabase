@@ -19,16 +19,16 @@ import scipy.io as sio
 from pprint import pprint
 
 class windLoadData:
-    def __init__(self, scale, exposure, data_type, air_density, units):
+    def __init__(self, scale, exposure_type, data_type, air_density, units):
         
     # def __init__(self, height, width, depth, scale, 
     #              tap_locations, duration, sampling_frequency, 
     #              air_density, wind_speed, wind_direction,  
     #              exposure, data_type, units):
         self.scale = scale
+        self.exposure_type = exposure_type
+        self.data_type = data_type        
         self.air_density = air_density
-        self.exposure = exposure
-        self.data_type = data_type
         self.units = units
 
     #Properties - getters and setters 
@@ -65,12 +65,28 @@ class windLoadData:
         self._scale = value
         
     @property
-    def tap_coordinates (self):
-        return self._tap_coordinates
+    def tap_locations (self):
+        return self._tap_locations
     
-    @tap_coordinates .setter
-    def tap_coordinates(self, value):
-        self._tap_coordinates = value
+    @tap_locations .setter
+    def tap_locations(self, value):
+        self._tap_locations = value
+        
+    @property
+    def tap_xyz (self):
+        return self._tap_xyz
+    
+    @tap_xyz.setter
+    def tap_xyz(self, value):
+        self._tap_xyz = value
+        
+    @property
+    def tap_normals (self):
+        return self._tap_normals
+    
+    @tap_normals .setter
+    def tap_normals(self, value):
+        self._tap_normals = value
         
     @property
     def duration(self):
@@ -113,12 +129,12 @@ class windLoadData:
         self._wind_direction = value
 
     @property
-    def exposure(self):
-        return self._exposure
+    def exposure_type(self):
+        return self._exposure_type
 
-    @exposure.setter
-    def exposure(self, value):
-        self._exposure = value
+    @exposure_type.setter
+    def exposure_type(self, value):
+        self._exposure_type = value
         
     @property
     def units(self):
@@ -141,41 +157,45 @@ class windLoadData:
         return self._pressure_coeffeints
 
     @pressure_coeffeints.setter
-    def data_type(self, value):
+    def pressure_coeffeints(self, value):
         self._pressure_coeffeints = value
         
     # Functions 
-    def ref_pressure(self):
+    def dynamic_pressure(self):
         return 0.5*self.rho*self.wind_speed**2.0;
 
 class HighRiseData(windLoadData):
-    def __init__(self, nstory):
+    def __init__(self, scale, exposure_type, data_type, air_density, nstory, units):
+        windLoadData.__init__(self, scale, exposure_type, data_type, air_density, units)
+        
         self.nstory = nstory
     
     ### Functions 
     def write_to_json(self, fine_name):
-        file = open(fine_name,"w");
-        file.write("{\n");
-    
-        file.write("\"windSpeed\":%f," % self.wind_speed);        
-        file.write("\"width\":%f," % self.width);
-        file.write("\"depth\":%f," % self.depth);
-        file.write("\"height\":%f," % self.height);
-        file.write("\"duration\":%f," % self.duration);
-        file.write("\"units\":{\"length\":\"m\",\"time\":\"sec\"},");
-        file.write("\"samplingFrequency\":%f," % self.sampling_frequency);
-        file.write("\"windDirection\":%f," % self.wind_direction);
-        file.write("\"tapCoordinates\": [");
+        file = open(fine_name + '.json',"w")
+        file.write("{\n")
+        file.write("\"width\":%f," % self.width)
+        file.write("\"depth\":%f," % self.depth)
+        file.write("\"height\":%f," % self.height)        
+        file.write("\"scale\":%f," % self.scale)       
+        file.write("\"exposureType\":%s," % self.exposure_type)        
+        file.write("\"dataType\":%s," % self.data_type)       
+        file.write("\"windSpeed\":%f," % self.wind_speed)        
+        file.write("\"duration\":%f," % self.duration)
+        file.write("\"units\":{\"length\":\"m\",\"time\":\"sec\"},")
+        file.write("\"samplingFrequency\":%f," % self.sampling_frequency)
+        file.write("\"windDirection\":%f," % self.wind_direction)
+        file.write("\"tapLocations\": [")
     
         for tapi in range(self.ntaps):
             if (tapi == self.ntaps-1):
-                file.write("{\"id\":%d,\"x\":%f,\"y\":%f,\"z\":%f,\"face\":%d}]" % (self.tap_names[tapi], self.tap_coordinates[tapi,0], self.tap_coordinates[tapi,1], self.tap_coordinates[tapi,2], self.tap_faces[tapi]))
+                file.write("{\"id\":%d,\"x\":%f,\"y\":%f,\"z\":%f,\"face\":%d}]" % (self.tap_names[tapi], self.tap_xyz[tapi,0], self.tap_xyz[tapi,1], self.tap_xyz[tapi,2], self.tap_faces[tapi]))
             else:
-                file.write("{\"id\":%d,\"x\":%f,\"y\":%f,\"z\":%f,\"face\":%d}," % (self.tap_names[tapi], self.tap_coordinates[tapi,0], self.tap_coordinates[tapi,1], self.tap_coordinates[tapi,2], self.tap_faces[tapi]))
+                file.write("{\"id\":%d,\"x\":%f,\"y\":%f,\"z\":%f,\"face\":%d}," % (self.tap_names[tapi], self.tap_xyz[tapi,0], self.tap_xyz[tapi,1], self.tap_xyz[tapi,2], self.tap_faces[tapi]))
         
-        file.write(",\"pressureCoefficients\": [");
+        file.write(",\"pressureCoefficients\": [")
 
-        ntime_steps = self.pressure_coeffeints.shape[0];
+        ntime_steps = self.pressure_coeffeints.shape[0]
     
         for tapi in range(self.ntaps):
             file.write("{\"id\": %d , \"data\":[" % (tapi + 1))
@@ -192,7 +212,7 @@ class HighRiseData(windLoadData):
     def read_json(self, path):
         raise NotImplementedError
     
-    def parse_matlab_file(self, file_name):
+    def read_matlab_file(self, file_name):
 
         mat_contents = sio.loadmat(file_name)
         
@@ -202,15 +222,20 @@ class HighRiseData(windLoadData):
 
         self.duration = mat_contents['Sample_period'][0][0]
         self.sampling_frequency = mat_contents['Sample_frequency'][0][0]
-        self.wind_direction = mat_contents['Wind_direction_angle'][0][0]
+        # self.wind_direction = mat_contents['Wind_direction_angle'][0][0]
+        self.wind_direction = 0
         self.wind_speed = float(mat_contents['Uh_AverageWindSpeed'][0])
     
-        self.tap_locations = mat_contents['Location_of_measured_points'];
-        self.ntaps = self.tap_locations.shape[1];
-        self.pressure_coeffeints = mat_contents['Wind_pressure_coefficients'];
+        self.tap_locations = mat_contents['Location_of_measured_points']
+        self.ntaps = self.tap_locations.shape[1]
+        
+        # cp = mat_contents['Wind_pressure_coefficients']
+        self.pressure_coeffeints = mat_contents['Wind_pressure_coefficients']
         
         #Tap locations (x,y,z) in global coordinate system
         tap_xyz = np.zeros((self.ntaps, 3))
+        tap_normals = np.zeros((self.ntaps, 3))
+        
         self.tap_names = []
         self.tap_faces = []
         
@@ -228,49 +253,36 @@ class HighRiseData(windLoadData):
             if face == 1:
                 tap_xyz[tap,0] = -self.depth/2.0
                 tap_xyz[tap,1] = self.width/2.0 - xLoc
+                tap_normals[tap,:] = np.array([1.0, 0.0, 0.0])
                 
             if face == 2:
                 tap_xyz[tap,0] = -self.depth/2.0 + (xLoc - self.width)
                 tap_xyz[tap,1] = -self.width/2.0
-                
+                tap_normals[tap,:] = np.array([0.0, 1.0, 0.0])
+
             if face == 3:
                 tap_xyz[tap,0] = self.depth/2.0
                 tap_xyz[tap,1] = -self.width/2.0 + (xLoc - self.width - self.depth)
-                
+                tap_normals[tap,:] = np.array([-1.0, 0.0, 0.0])
+
             if face == 4:
                 tap_xyz[tap,0] = self.depth/2.0 - (xLoc - 2*self.width - self.depth)
                 tap_xyz[tap,1] = self.width/2.0
+                tap_normals[tap,:] = np.array([0.0, -1.0, 0.0])
+
                 
         self.tap_xyz = tap_xyz
-        
-        
-        # get xMax and yMax .. assuming first sensor is 1m from building edge
-        # location on faces cannot be obtained from the inputs, at least not with 
-        # current documentation, awaing email from TPU
-    
-        # xMax = max(self.tap_locations[0]) + 1
-        # yMax = max(self.tap_locations[1]) + 1
-        
-        # for tap in range(self.ntaps):
-        #     tag = self.tap_locations[2][tap]
-        #     xLoc = self.tap_locations[0][tap]
-        #     yLoc = self.tap_locations[1][tap]
-        #     face = self.tap_locations[3][tap]
-    
-        #     X = xLoc
-        #     Y = yLoc
-        #     if (face == 2):
-        #         xLoc = X - breadth
-        #     elif (face == 3):
-        #         xLoc = X - breadth - depth
-        #     elif (face == 4):
-        #         xLoc = X - 2*breadth - depth
-            
-        #     if (loc == numLocations-1):
-        #         file.write("{\"id\":%d,\"xLoc\":%f,\"yLoc\":%f,\"face\":%d}]" % (tag, xLoc, yLoc, face))
-        #     else:
-        #         file.write("{\"id\":%d,\"xLoc\":%f,\"yLoc\":%f,\"face\":%d}," % (tag, xLoc, yLoc, face))
+        self.tap_normals = tap_normals
 
+
+    def base_loads(self):
+        NotImplemented
+        
+    def story_loads(self):
+        NotImplemented
+
+    def plot_Cp_contour (self, cp_type='mean'):
+        NotImplemented
 
 class LowRiseData(windLoadData):
     def __init__(self, roof_type, pitch_angle):
