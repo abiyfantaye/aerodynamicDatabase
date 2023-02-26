@@ -1,11 +1,11 @@
 """
-A python code to store and process aerodynamic wind load
-data (both experimentand and CFD) on low-rise and high-
-rise buildings.  
-Finally, the data is written to JSON format for further
-analysis. 
-Also, implements functions for post-processing of mean and 
-peak loads and responses on the building.
+A python code to store and process aerodynamic data (pressure time-series on)
+buildings. Can be experimental and CFD data.  
+
+Finally, the data is written to JSON format for further analysis. 
+
+Also, implements functions for post-processing of mean and peak loads and 
+responses on the building.
 """
 
 import sys
