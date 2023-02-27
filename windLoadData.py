@@ -26,10 +26,10 @@ def find_high_rise_data(json_path, data_type, height_to_width, width_to_depth, w
     bldg_type = 'HR' # High rise building 
     case_name = '{}_{}_{}_{}_{}_{}'.format(bldg_type, data_type, height_to_width, width_to_depth, wind_direction, roughness_length)
     
-    if os.path.isfile(json_path + '/' + case_name):
-        
-        
-        print(" found from path: %s" % (json_path))
+    if os.path.isfile(json_path + '/' + case_name + '_INFO'):
+        x = 1
+    else:
+        print("Can not be found in the aerodynamic data base")
 
         
     # if os.path.isdir(json_path + '/' + case_name):
@@ -221,7 +221,7 @@ class HighRiseData(windLoadData):
     
     ### Functions 
     def write_to_json_general_info(self, fine_name):
-        file = open(fine_name,"w")
+        file = open(fine_name + '_INFO' ,"w")
         file.write("{\n")
         
         file.write("\"windSpeed\":%f," % self.wind_speed)      
