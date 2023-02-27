@@ -1,6 +1,6 @@
 """
-A python code to store and process aerodynamic data (pressure time-series on)
-buildings. Can be experimental and CFD data.  
+A python code to store and process aerodynamic data (pressure time-series) on
+buildings. Can be used with experimental or CFD data.  
 
 Finally, the data is written to JSON format for further analysis. 
 
@@ -55,6 +55,22 @@ class windLoadData:
     @depth.setter
     def depth(self, value):
         self._depth = value
+
+    @property
+    def height_to_width(self):
+        return self._height_to_width
+
+    @height_to_width.setter
+    def height_to_width(self, value):
+        self._height_to_width = value
+        
+    @property
+    def width_to_depth(self):
+        return self._width_to_depth
+
+    @width_to_depth.setter
+    def width_to_depth(self, value):
+        self._width_to_depth = value
 
     @property
     def scale(self):
@@ -113,12 +129,20 @@ class windLoadData:
         self._wind_direction = value
 
     @property
-    def exposure(self):
-        return self._exposure
+    def exposure_name(self):
+        return self._exposure_name
 
-    @exposure.setter
-    def exposure(self, value):
-        self._exposure = value
+    @exposure_name.setter
+    def exposure_name(self, value):
+        self._exposure_name = value
+        
+    @property
+    def roughness_length(self):
+        return self._roughness_length
+
+    @roughness_length.setter
+    def roughness_length(self, value):
+        self._roughness_length = value
         
     @property
     def units(self):
@@ -141,31 +165,51 @@ class windLoadData:
         return self._pressure_coeffeints
 
     @pressure_coeffeints.setter
-    def data_type(self, value):
+    def pressure_coeffeints(self, value):
         self._pressure_coeffeints = value
         
-    # Functions 
-    def ref_pressure(self):
-        return 0.5*self.rho*self.wind_speed**2.0;
 
 class HighRiseData(windLoadData):
     def __init__(self, nstory):
         self.nstory = nstory
     
     ### Functions 
-    def write_to_json(self, fine_name):
-        file = open(fine_name,"w");
-        file.write("{\n");
+    def write_to_json_general_info(self, fine_name):
+        file = open(fine_name,"w")
+        file.write("{\n")
+        file.write("\"windSpeed\":%f," % self.wind_speed)      
+        file.write("\"width\":%f," % self.width)
+        file.write("\"depth\":%f," % self.depth)
+        file.write("\"height\":%f," % self.height)
+        file.write("\"heightToWidth\":%f," % self.height_to_width)
+        file.write("\"widthToDepth\":%f," % self.width_to_depth)
+        file.write("\"duration\":%f," % self.duration)
+        file.write("\"units\":{\"length\":\"m\",\"time\":\"sec\"},")
+        file.write("\"samplingFrequency\":%f," % self.sampling_frequency)
+        file.write("\"windDirection\":%f," % self.wind_direction);    
+        file.write("\"exposureName\":%f," % self.exposure_name) 
+        file.write("\"roughnessLength\":%f," % self.roughness_length)
+        file.write("}")
+        file.close()
     
-        file.write("\"windSpeed\":%f," % self.wind_speed);        
-        file.write("\"width\":%f," % self.width);
-        file.write("\"depth\":%f," % self.depth);
-        file.write("\"height\":%f," % self.height);
-        file.write("\"duration\":%f," % self.duration);
-        file.write("\"units\":{\"length\":\"m\",\"time\":\"sec\"},");
-        file.write("\"samplingFrequency\":%f," % self.sampling_frequency);
-        file.write("\"windDirection\":%f," % self.wind_direction);
-        file.write("\"tapCoordinates\": [");
+    ### Functions 
+    def write_to_json_all(self, fine_name):
+        file = open(fine_name,"w")
+        file.write("{\n")
+    
+        file.write("\"windSpeed\":%f," % self.wind_speed)       
+        file.write("\"width\":%f," % self.width)
+        file.write("\"depth\":%f," % self.depth)
+        file.write("\"height\":%f," % self.height)
+        file.write("\"heightToWidth\":%f," % self.height_to_width)
+        file.write("\"widthToDepth\":%f," % self.width_to_depth)
+        file.write("\"duration\":%f," % self.duration)
+        file.write("\"units\":{\"length\":\"m\",\"time\":\"sec\"},")
+        file.write("\"samplingFrequency\":%f," % self.sampling_frequency)
+        file.write("\"windDirection\":%f," % self.wind_direction)
+        file.write("\"exposureName\":%f," % self.exposure_name) 
+        file.write("\"roughnessLength\":%f," % self.roughness_length)
+        file.write("\"tapCoordinates\": [")
     
         for tapi in range(self.ntaps):
             if (tapi == self.ntaps-1):
@@ -175,7 +219,7 @@ class HighRiseData(windLoadData):
         
         file.write(",\"pressureCoefficients\": [");
 
-        ntime_steps = self.pressure_coeffeints.shape[0];
+        ntime_steps = self.pressure_coeffeints.shape[0]
     
         for tapi in range(self.ntaps):
             file.write("{\"id\": %d , \"data\":[" % (tapi + 1))
@@ -243,33 +287,6 @@ class HighRiseData(windLoadData):
                 
         self.tap_xyz = tap_xyz
         
-        
-        # get xMax and yMax .. assuming first sensor is 1m from building edge
-        # location on faces cannot be obtained from the inputs, at least not with 
-        # current documentation, awaing email from TPU
-    
-        # xMax = max(self.tap_locations[0]) + 1
-        # yMax = max(self.tap_locations[1]) + 1
-        
-        # for tap in range(self.ntaps):
-        #     tag = self.tap_locations[2][tap]
-        #     xLoc = self.tap_locations[0][tap]
-        #     yLoc = self.tap_locations[1][tap]
-        #     face = self.tap_locations[3][tap]
-    
-        #     X = xLoc
-        #     Y = yLoc
-        #     if (face == 2):
-        #         xLoc = X - breadth
-        #     elif (face == 3):
-        #         xLoc = X - breadth - depth
-        #     elif (face == 4):
-        #         xLoc = X - 2*breadth - depth
-            
-        #     if (loc == numLocations-1):
-        #         file.write("{\"id\":%d,\"xLoc\":%f,\"yLoc\":%f,\"face\":%d}]" % (tag, xLoc, yLoc, face))
-        #     else:
-        #         file.write("{\"id\":%d,\"xLoc\":%f,\"yLoc\":%f,\"face\":%d}," % (tag, xLoc, yLoc, face))
 
 
 class LowRiseData(windLoadData):
