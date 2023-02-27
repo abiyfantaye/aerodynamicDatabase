@@ -170,7 +170,9 @@ class windLoadData:
         
 
 class HighRiseData(windLoadData):
-    def __init__(self, nstory):
+    def __init__(self, scale, exposure_type, data_type, air_density, nstory, units):
+        windLoadData.__init__(self, scale, exposure_type, data_type, air_density, units)
+        
         self.nstory = nstory
     
     ### Functions 
