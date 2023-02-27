@@ -19,17 +19,18 @@ import scipy.io as sio
 from pprint import pprint
 
 class windLoadData:
-    def __init__(self, scale, exposure, data_type, air_density, units):
+    def __init__(self, data_type='CFD'):
         
     # def __init__(self, height, width, depth, scale, 
-    #              tap_locations, duration, sampling_frequency, 
+    #              tap_locations, duration, sampling_rate, 
     #              air_density, wind_speed, wind_direction,  
     #              exposure, data_type, units):
-        self.scale = scale
-        self.air_density = air_density
-        self.exposure = exposure
+        
         self.data_type = data_type
-        self.units = units
+        self.air_density = 1.225
+        self.length_unit = 'm'
+        self.time_unit = 'sec'
+
 
     #Properties - getters and setters 
     @property
@@ -97,12 +98,12 @@ class windLoadData:
         self._duration = value
 
     @property
-    def sampling_frequency(self):
-        return self._sampling_frequency
+    def sampling_rate(self):
+        return self._sampling_rate
 
-    @sampling_frequency.setter
-    def sampling_frequency(self, value):
-        self._sampling_frequency = value
+    @sampling_rate.setter
+    def sampling_rate(self, value):
+        self._sampling_rate = value
         
     @property
     def air_density(self):
@@ -145,12 +146,20 @@ class windLoadData:
         self._roughness_length = value
         
     @property
-    def units(self):
-        return self._units
+    def length_unit(self):
+        return self._length_unit
 
-    @units.setter
-    def units(self, value):
-        self._units = value
+    @length_unit.setter
+    def length_unit(self, value):
+        self._length_unit = value
+
+    @property
+    def time_unit(self):
+        return self._time_unit
+
+    @time_unit.setter
+    def time_unit(self, value):
+        self._time_unit = value
         
     @property
     def data_type(self):
@@ -170,15 +179,15 @@ class windLoadData:
         
 
 class HighRiseData(windLoadData):
-    def __init__(self, scale, exposure_type, data_type, air_density, nstory, units):
-        windLoadData.__init__(self, scale, exposure_type, data_type, air_density, units)
+    def __init__(self, data_type):
+        windLoadData.__init__(self, data_type)
         
-        self.nstory = nstory
     
     ### Functions 
     def write_to_json_general_info(self, fine_name):
         file = open(fine_name,"w")
         file.write("{\n")
+        
         file.write("\"windSpeed\":%f," % self.wind_speed)      
         file.write("\"width\":%f," % self.width)
         file.write("\"depth\":%f," % self.depth)
@@ -186,11 +195,13 @@ class HighRiseData(windLoadData):
         file.write("\"heightToWidth\":%f," % self.height_to_width)
         file.write("\"widthToDepth\":%f," % self.width_to_depth)
         file.write("\"duration\":%f," % self.duration)
-        file.write("\"units\":{\"length\":\"m\",\"time\":\"sec\"},")
-        file.write("\"samplingFrequency\":%f," % self.sampling_frequency)
+        file.write("\"timeUnit\":%s," % self.time_unit)
+        file.write("\"lengthUnit\":%s," % self.length_unit)
+        file.write("\"samplingRate\":%f," % self.sampling_rate)
         file.write("\"windDirection\":%f," % self.wind_direction);    
         file.write("\"exposureName\":%f," % self.exposure_name) 
         file.write("\"roughnessLength\":%f," % self.roughness_length)
+        file.write("\"dataType\":%f," % self.data_type)
         file.write("}")
         file.close()
     
@@ -206,11 +217,13 @@ class HighRiseData(windLoadData):
         file.write("\"heightToWidth\":%f," % self.height_to_width)
         file.write("\"widthToDepth\":%f," % self.width_to_depth)
         file.write("\"duration\":%f," % self.duration)
-        file.write("\"units\":{\"length\":\"m\",\"time\":\"sec\"},")
-        file.write("\"samplingFrequency\":%f," % self.sampling_frequency)
+        file.write("\"timeUnit\":%s," % self.time_unit)
+        file.write("\"lengthUnit\":%s," % self.length_unit)
+        file.write("\"samplingRate\":%f," % self.sampling_rate)
         file.write("\"windDirection\":%f," % self.wind_direction)
         file.write("\"exposureName\":%f," % self.exposure_name) 
         file.write("\"roughnessLength\":%f," % self.roughness_length)
+        file.write("\"dataType\":%s," % self.data_type)
         file.write("\"tapCoordinates\": [")
     
         for tapi in range(self.ntaps):
@@ -247,7 +260,7 @@ class HighRiseData(windLoadData):
         self.depth = mat_contents['Building_depth'][0][0]
 
         self.duration = mat_contents['Sample_period'][0][0]
-        self.sampling_frequency = mat_contents['Sample_frequency'][0][0]
+        self.sampling_rate = mat_contents['Sample_frequency'][0][0]
         self.wind_direction = mat_contents['Wind_direction_angle'][0][0]
         self.wind_speed = float(mat_contents['Uh_AverageWindSpeed'][0])
     

@@ -20,15 +20,24 @@ import scipy.io as sio
 from pprint import pprint
 import windLoadData as wd
 
-scale = 1/400
+scale = 1/400.0
 air_density = 1.225
-exposure_type = "Open"
+exposure_name = "Open"
+z0 = 0.03
 data_type = "CFD"
-units = {'Length':'m', 'Time':'s', 'Force':'N'}
-nstory = 10
+length_unit = 'm'
+time_unit = 'sec'
 
-data = wd.HighRiseData(scale=scale, exposure_type=exposure_type, data_type=data_type,
-                       air_density=air_density, nstory=nstory, units=units)
+
+data = wd.HighRiseData(data_type=data_type)
+
+data.scale = scale
+data.exposure_name = exposure_name
+data.air_density = air_density
+data.roughness_length = z0
+data.length_unit = length_unit
+data.time_unit = time_unit
+
 
 data.read_matlab_file('../databaseRaw/fine_1049_nominal')   
 
