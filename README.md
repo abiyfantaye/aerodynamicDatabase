@@ -10,7 +10,7 @@ Contains a python script for preparing, searching and post-processing aerodynami
 ## Data Structure
 The database is saved into JSON file format. The `aerodynamicDatabaseLib.py` is a python library to save and retrive any database entry. The core class of the library is the `WindLoadData` class which contains all the atributes any database entry. The library also holds `HighRiseData` and `LowRiseData`that implement fuctions for manipulating wind load data for high-rise and low-rise buildings, respectively. 
 
-Each database entry is stored using two associated files. The first file ends with "*_info.json" and contains main atributes of the database entry, which include the building geometry, wind characterstics, data type, unit system, etc. The `HighRiseData` class has a function implemented to write this file for high rise building. Typical "*_info.json" file for aerodynamic database looks like this:
+Each database entry is stored using two associated files. The first file ends with *"*_info.json" and contains main atributes of the database entry, which include the building geometry, wind characterstics, data type, unit system, etc. The `HighRiseData` class has a function implemented to write this file for high rise building. Typical "*_info.json" file for aerodynamic database looks like this:
 
 ```bash
 {
