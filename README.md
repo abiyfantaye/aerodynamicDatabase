@@ -14,21 +14,21 @@ The database is saved into JSON file format. Each database entry is stored using
 
 ```bash
 {
-"windSpeed":10.692400,
-"width":0.200000,
-"depth":0.100000,
-"height":0.300000,
-"heightToWidth":1.500000,
-"widthToDepth":2.000000,
-"duration":32.000000,
-"timeUnit":sec,
-"lengthUnit":m,
-"samplingRate":1000.000000,
-"windDirection":0.000000,
-"exposureType":Open,
-"roughnessLength":0.030000,
-"dataType":CFD,
-"fileName":HR_CFD_1.50_2.00_0.00_0.030
+windSpeed	10.6924
+width	0.2
+depth	0.1
+height	0.3
+heightToWidth	1.5
+widthToDepth	2
+duration	32
+timeUnit	"sec"
+lengthUnit	"m"
+samplingRate	1000
+windDirection	0
+exposureType	"Open"
+roughnessLength	0.03
+dataType	"CFD"
+fileName	"HR_CFD_1.50_2.00_0.00_0.030"
 }
 ```
 
