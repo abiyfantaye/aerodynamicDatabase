@@ -34,15 +34,4 @@ Each database entry is stored using two associated files. The first file ends wi
 The other file ends with just *".json"* and holds all the information *"_info.json"* file contains and additional data about measurment locations and the actual pressure time-series. This file is usually big and the *"_info.json"* is used instead for searching purpose. 
 
 ## Database Entry Naming
-Each database entry is named based on the following convention. The name contains building type (high-rise or low-rise), data type (experiment, CFD or field), height to width ratio, width to depth ratio, wind direction, aerodynamic roughness length. For example `HR_CFD_4_1.5_90_0.03` represents a high-rise building aerodynamic database extracted from CFD simulation with height/width and width/depth ratio of 4 and 1.5 for 90 degree wind direction for a terrain with 0.03 m aerodynamic roughness height.   
-
-
-
-- **OpenFOAM**, preferably v8  
-- Intel's oneAPI MKL package or **LAPACK** library
-
-    Download the installer here: https://www.intel.com/content/www/us/en/developer/tools/oneapi/base-toolkit-download.html?operatingsystem=linux&distributions=webdownload&options=online
-    
-    Follow the Command Line Download and Installation instructions (`sudo` is not required, but we only selected the MKL package to install - 7.3 GB) \
-    And make sure to follow these instructions: https://www.intel.com/content/www/us/en/develop/documentation/get-started-with-dpcpp-compiler/top.html \
-    i.e. source the environment settings script (in our case that worked with `$ source $HOME/intel/oneapi/setvars.sh intel64` but might be dependent on where you installed it - also, you might want to add this line to the end of your `~/.bashrc` file, as it needs to be sourced every time you open a new terminal window)
+Each database entry is named based on the following convention. The name contains building type (high-rise or low-rise), data type (experiment, CFD or field), height to width ratio, width to depth ratio, wind direction, aerodynamic roughness length. For example `HR_CFD_4_1.5_90_0.03` represents a high-rise building aerodynamic database extracted from CFD simulation with height/width and width/depth ratio of 4 and 1.5 for 90 degree wind direction in a terrain having 0.03 m aerodynamic roughness height.   
