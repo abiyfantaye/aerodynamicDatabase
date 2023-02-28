@@ -3,7 +3,7 @@
 Original code: fmk 
 Modficiation for CFD data: Abiy
 
-This is a temporary script file.
+This is a temporary script file for writing the data
 """
 # python code to read TPU .mat file and store 
 # data into a SimCenter JSON file
@@ -28,7 +28,7 @@ time_unit = "sec"
 roughness_length = 0.03
 
 
-#Reading and writing data from Prof. Gorle
+#Reading and writing data from Prof. Gorle's group
 data = adb.HighRiseData(data_type=data_type)
 data.scale = scale
 data.air_density = air_density
@@ -43,7 +43,11 @@ data.read_matlab_file('../rawData/fine_1049_nominal')
 case_name = '{}_{}_{:.2f}_{:.2f}_{:.2f}_{:.3f}'.format(bldg_type, data_type, data.height_to_width, data.width_to_depth, data.wind_direction, data.roughness_length)
 
 data.file_name = case_name
+
+#Write the general info file
 data.write_to_json_general_info('../processedData/' + case_name)
+
+#Damp all the data
 data.write_to_json_all('../processedData/' + case_name)
 
 
