@@ -44,7 +44,7 @@ For searching a particular entry in the database, generally the following inform
 - Height to width ratio
 - Width to depth ratio
 - Wind direction 
-- Exposure condition (z0)
+- Exposure condition i.e. aerodynamic roughness length (z0)
 
 ## Future work needed
 The current capability of the aerodynamic database is very limitted. Future work is needed to enhance its capability in the following key directions: 
