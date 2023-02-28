@@ -17,7 +17,7 @@ import shutil
 import numpy as np
 import scipy.io as sio
 from pprint import pprint
-import aerodynamicDatabaseLib as db
+import aerodynamicDatabaseLib as adb
 
 scale = 1/400.0
 air_density = 1.225
@@ -28,7 +28,7 @@ length_unit = 'm'
 time_unit = 'sec'
 
 
-data = db.HighRiseData(data_type=data_type)
+data = adb.HighRiseData(data_type=data_type)
 
 data.scale = scale
 data.exposure_name = exposure_name
@@ -43,10 +43,10 @@ data.read_matlab_file('data/fine_1049_nominal')
 
 height_to_width = 1.5
 width_to_depth = 2.0
-wind_direction = 90.0
+wind_direction = 0.0
 roughness_length = 0.03
 
-# wind.find_high_rise_data(data_type, height_to_width, width_to_depth, wind_direction, roughness_length)
+# adb.find_high_rise_data(data_type, height_to_width, width_to_depth, wind_direction, roughness_length)
 
 
 # jsonstr1 = json.dumps(data.__dict__)
