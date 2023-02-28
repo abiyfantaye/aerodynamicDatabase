@@ -31,7 +31,15 @@ Each database entry is stored using two associated files. The first file ends wi
 }
 ```
 
-The other file ends with just *".json"* and holds all the information *"_info.json"* and additional information about measurment locations and the actual pressure time-series. This file is usually big and the *"_info.json"* is used instead for searching purpose.    
+The other file ends with just *".json"* and holds all the information *"_info.json"* file contains and additional data about measurment locations and the actual pressure time-series. This file is usually big and the *"_info.json"* is used instead for searching purpose. 
+
+## Database Entry Naming
+Each database entry is named based on the following convention. 
+
+    ``\
+
+
+
 
 - **OpenFOAM**, preferably v8  
 - Intel's oneAPI MKL package or **LAPACK** library
