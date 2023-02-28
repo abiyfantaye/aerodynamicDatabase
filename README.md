@@ -34,4 +34,15 @@ Each database entry is stored using two associated files. The first file ends wi
 The other file ends with just *".json"* and holds all the information *"_info.json"* file contains and additional data about measurment locations and the actual pressure time-series. This file is usually big and the *"_info.json"* is used instead for searching purpose. 
 
 ## Database Entry Naming
-Each database entry is named based on the following convention. The name contains building type (high-rise or low-rise), data type (experiment, CFD or field), height to width ratio, width to depth ratio, wind direction, aerodynamic roughness length. For example `HR_CFD_4_1.5_90_0.03` represents a high-rise building aerodynamic database extracted from CFD simulation with height/width and width/depth ratio of 4 and 1.5 for 90 degree wind direction in a terrain having 0.03 m aerodynamic roughness height.   
+Each database entry is named based on the following convention. The name contains building type (high-rise or low-rise), data type (experiment, CFD or field), height to width ratio, width to depth ratio, wind direction, aerodynamic roughness length (z0). For example `HR_CFD_4_1.5_90_0.03` represents a high-rise building aerodynamic database extracted from CFD simulation with height/width and width/depth ratio of 4 and 1.5 for 90 degree wind direction in a terrain having 0.03 m aerodynamic roughness height. 
+
+## Searching Database
+
+For searching the database generally the following information is required: 
+- Building type (high-rise or low-rise) 
+- Height to width ratio
+- Width to depth ratio
+- Wind direction 
+- Exposure condition (z0)
+
+
