@@ -234,7 +234,7 @@ class HighRiseData(WindLoadData):
         file.write("\"windDirection\":%f," % self.wind_direction);    
         file.write("\"exposureType\":%s," % self.exposure_type) 
         file.write("\"roughnessLength\":%f," % self.roughness_length)
-        file.write("\"dataType\":%s" % self.data_type)
+        file.write("\"dataType\":%s," % self.data_type)
         file.write("\"fileName\":%s" % self.file_name)
         file.write("}")
         file.close()
