@@ -7,7 +7,7 @@ Contains a python script for preparing, searching and post-processing aerodynami
 - Full-scale **feild** measurment  
 
 
-## Data Structure
+## Data structure
 The database is saved into JSON file format. The `aerodynamicDatabaseLib.py` is a python library to save and retrive any database entry. The core class of the library is the `WindLoadData` class which contains all the atributes any database entry. The library also holds `HighRiseData` and `LowRiseData`that implement fuctions for manipulating wind load data for high-rise and low-rise buildings, respectively. 
 
 Each database entry is stored using two associated files. The first file ends with *"_info.json"* and contains main atributes of the database entry, which include the building geometry, wind characterstics, data type, unit system, etc. The `HighRiseData` class has a function implemented to write this file for high rise building. Typical *"_info.json"* file for aerodynamic database looks like this:
@@ -33,10 +33,10 @@ Each database entry is stored using two associated files. The first file ends wi
 
 The other file ends with just *".json"* and holds all the information *"_info.json"* file contains and additional data about measurment locations and the actual pressure time-series. This file is usually big and the *"_info.json"* is used instead for searching purpose. 
 
-## Database Entry Naming
+## Database entry naming
 Each database entry is named based on the following convention. The name contains building type (high-rise or low-rise), data type (experiment, CFD or field), height to width ratio, width to depth ratio, wind direction, aerodynamic roughness length (z0). For example `HR_CFD_4_1.5_90_0.03` represents a high-rise building aerodynamic database extracted from CFD simulation with height/width and width/depth ratio of 4 and 1.5 for 90 degree wind direction in a terrain having 0.03 m aerodynamic roughness height. 
 
-## Searching Database
+## Searching database
 
 For searching a specific a particular entry in the database, generally the following information is required: 
 - Building type (high-rise or low-rise) 
@@ -44,5 +44,13 @@ For searching a specific a particular entry in the database, generally the follo
 - Width to depth ratio
 - Wind direction 
 - Exposure condition (z0)
+
+## Future work needed
+The current capability of the aerodynamic database is very limitted. Future work is needed to enhance its capability in the following key direction 
+ - Populate the database with additional data (both experimetal and CFD). Performing CFD simulations variying different parameters listed above.  
+ - Inplement database interpolation technique for cases that can not be found in the database. This requires developing interpolation algorithm based on  devreduced order modeling or machine learning techniques.     
+
+
+
 
 
