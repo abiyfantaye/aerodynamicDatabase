@@ -36,7 +36,7 @@ The other file ends with just *".json"* and holds all the information *"_info.js
 ## Database Entry Naming
 Each database entry is named based on the following convention. 
 
-    ``\
+    `HR_CFD_4_1.5_90_0.03`\
 
 
 
