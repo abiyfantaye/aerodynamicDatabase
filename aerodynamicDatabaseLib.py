@@ -205,7 +205,7 @@ class WindLoadData:
 
 class HighRiseData(WindLoadData):
     def __init__(self, data_type):
-        windLoadData.__init__(self, data_type)
+        WindLoadData.__init__(self, data_type)
         
     
     ### Functions 
@@ -332,7 +332,7 @@ class HighRiseData(WindLoadData):
         
 
 
-class LowRiseData(windLoadData):
+class LowRiseData(WindLoadData):
     def __init__(self, roof_type, pitch_angle):
         self.roof_type = roof_type
         self.pitch_angle = pitch_angle
