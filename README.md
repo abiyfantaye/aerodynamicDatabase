@@ -13,7 +13,20 @@ The database is saved into JSON file format. The `aerodynamicDatabaseLib.py` is 
 Each database entry is stored using two associated files. The first file is `*_info.json` that contains main atributes of the database entry, which include the building geometry, wind characterstics, data type, unit system, etc. The `HighRiseData` class has a function implemented to write this file for high rise building. Typical `*_info.json` file for aerodynamic database looks like this:
 
 ```bash
-"windSpeed":10.692400,"width":0.200000,"depth":0.100000,"height":0.300000,"heightToWidth":1.500000,"widthToDepth":2.000000,"duration":32.000000,"timeUnit":sec,"lengthUnit":m,"samplingRate":1000.000000,"windDirection":0.000000,"exposureType":Open,"roughnessLength":0.030000,"dataType":CFD}
+"windSpeed":10.692400,
+"width":0.200000,
+"depth":0.100000,
+"height":0.300000,
+"heightToWidth":1.500000,
+"widthToDepth":2.000000,
+"duration":32.000000,
+"timeUnit":sec,
+"lengthUnit":m,
+"samplingRate":1000.000000,
+"windDirection":0.000000,
+"exposureType":Open,
+"roughnessLength":0.030000,
+"dataType":CFD}
 ```
 
 
