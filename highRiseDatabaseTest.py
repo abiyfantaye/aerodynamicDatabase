@@ -42,7 +42,7 @@ data.time_unit = time_unit
 #Read data for Open exposure type
 data.read_matlab_file('../rawData/fine_1049_nominal')   
 
-case_name = '{}_{}_{}_{}_{}_{}'.format(bldg_type, data_type, data.height_to_width, data.width_to_depth, data.wind_direction, data.roughness_length)
+case_name = '{}_{}_{:.1f}_{:.1f}_{:.1f}_{:.3f}'.format(bldg_type, data_type, data.height_to_width, data.width_to_depth, data.wind_direction, data.roughness_length)
 
 
 # data.write_to_json_general_info('../processedData/' + case_name)
