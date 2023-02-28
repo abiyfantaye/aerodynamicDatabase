@@ -43,8 +43,8 @@ class WindLoadData:
         
         self.data_type = data_type
         self.air_density = 1.225
-        self.length_unit = 'm'
-        self.time_unit = 'sec'
+        self.length_unit = "m"
+        self.time_unit = "sec"
         self.wind_direction = 0.0
 
 
@@ -228,14 +228,14 @@ class HighRiseData(WindLoadData):
         file.write("\"heightToWidth\":%f," % self.height_to_width)
         file.write("\"widthToDepth\":%f," % self.width_to_depth)
         file.write("\"duration\":%f," % self.duration)
-        file.write("\"timeUnit\":%s," % self.time_unit)
-        file.write("\"lengthUnit\":%s," % self.length_unit)
+        file.write("\"timeUnit\":\"%s\"," % self.time_unit)
+        file.write("\"lengthUnit\":\"%s\"," % self.length_unit)
         file.write("\"samplingRate\":%f," % self.sampling_rate)
         file.write("\"windDirection\":%f," % self.wind_direction);    
-        file.write("\"exposureType\":%s," % self.exposure_type) 
+        file.write("\"exposureType\":\"%s\"," % self.exposure_type) 
         file.write("\"roughnessLength\":%f," % self.roughness_length)
-        file.write("\"dataType\":%s," % self.data_type)
-        file.write("\"fileName\":%s" % self.file_name)
+        file.write("\"dataType\":\"%s\"," % self.data_type)
+        file.write("\"fileName\":\"%s\"" % self.file_name)
         file.write("}")
         file.close()
     
@@ -251,14 +251,14 @@ class HighRiseData(WindLoadData):
         file.write("\"heightToWidth\":%f," % self.height_to_width)
         file.write("\"widthToDepth\":%f," % self.width_to_depth)
         file.write("\"duration\":%f," % self.duration)
-        file.write("\"timeUnit\":%s," % self.time_unit)
-        file.write("\"lengthUnit\":%s," % self.length_unit)
+        file.write("\"timeUnit\":\"%s\"," % self.time_unit)
+        file.write("\"lengthUnit\":\"%s\"," % self.length_unit)
         file.write("\"samplingRate\":%f," % self.sampling_rate)
         file.write("\"windDirection\":%f," % self.wind_direction)
-        file.write("\"exposureType\":%s," % self.exposure_type) 
+        file.write("\"exposureType\":\"%s\"," % self.exposure_type) 
         file.write("\"roughnessLength\":%f," % self.roughness_length)
-        file.write("\"dataType\":%s," % self.data_type)
-        file.write("\"fileName\":%s," % self.file_name)
+        file.write("\"dataType\":\"%s\"," % self.data_type)
+        file.write("\"fileName\":\"%s\"," % self.file_name)
         file.write("\"tapCoordinates\": [")
     
         for tapi in range(self.ntaps):
