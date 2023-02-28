@@ -33,7 +33,7 @@ def find_high_rise_data(json_path, data_type, height_to_width, width_to_depth, w
         print("Case can not be found in the aerodynamic database")
         return None
     
-class windLoadData:
+class WindLoadData:
     def __init__(self, data_type='CFD'):
         
     # def __init__(self, height, width, depth, scale, 
@@ -203,7 +203,7 @@ class windLoadData:
         self._pressure_coeffeints = value
         
 
-class HighRiseData(windLoadData):
+class HighRiseData(WindLoadData):
     def __init__(self, data_type):
         windLoadData.__init__(self, data_type)
         
