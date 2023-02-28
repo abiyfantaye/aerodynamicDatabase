@@ -47,8 +47,8 @@ For searching a specific a particular entry in the database, generally the follo
 
 ## Future work needed
 The current capability of the aerodynamic database is very limitted. Future work is needed to enhance its capability in the following key direction 
- - Populate the database with additional data (both experimetal and CFD). Performing CFD simulations variying different parameters listed above.  
- - Inplement database interpolation technique for cases that can not be found in the database. This requires developing interpolation algorithm based on  devreduced order modeling or machine learning techniques.     
+ - Populate the database with additional data (both experimetal and CFD). Performing CFD simulations variying different parameters listed above seem a feasible direction.  
+ - Inplement database interpolation technique for cases that can not be found in the database. This requires developing interpolation scheme based on  devreduced order modeling or machine learning techniques.     
 
 
 
