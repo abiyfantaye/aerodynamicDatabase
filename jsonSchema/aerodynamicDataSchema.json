@@ -84,6 +84,10 @@
     "windDirection": {
       "description": "Angle of incidence of the wind data with respect to azimuth",
       "type": "number"
+    },
+    "fileName": {
+      "description": "Name of the file the database entry is saved to",
+      "type": "string"
     }
   }
 }

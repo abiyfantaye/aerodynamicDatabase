@@ -22,7 +22,6 @@ import aerodynamicDatabaseLib as adb
 bldg_type = "HR"
 scale = 1/400.0
 air_density = 1.225
-exposure_name = "Open"
 data_type = "CFD"
 length_unit = "m"
 time_unit = "sec"
@@ -32,19 +31,27 @@ roughness_length = 0.03
 #Reading and writing data from Prof. Gorle
 data = adb.HighRiseData(data_type=data_type)
 data.scale = scale
-data.exposure_name = exposure_name
 data.air_density = air_density
 data.roughness_length = roughness_length
 data.length_unit = length_unit
 data.time_unit = time_unit
 
 
-#Read data for Open exposure type
+#Read and write for Open exposure type
+data.exposure_type = "Open"
 data.read_matlab_file('../rawData/fine_1049_nominal')   
+case_name = '{}_{}_{:.2f}_{:.2f}_{:.2f}_{:.3f}'.format(bldg_type, data_type, data.height_to_width, data.width_to_depth, data.wind_direction, data.roughness_length)
 
-case_name = '{}_{}_{:.1f}_{:.1f}_{:.1f}_{:.3f}'.format(bldg_type, data_type, data.height_to_width, data.width_to_depth, data.wind_direction, data.roughness_length)
+data.file_name = case_name
+data.write_to_json_general_info('../processedData/' + case_name)
 
 
+# #Read and write for Flat exposure type
+# data.exposure_type = "Flat"
+# data.read_matlab_file('../rawData/fine_0625_nominal')  
+# case_name = '{}_{}_{:.2f}_{:.2f}_{:.2f}_{:.3f}'.format(bldg_type, data_type, data.height_to_width, data.width_to_depth, data.wind_direction, data.roughness_length)
+
+# data.file_name = case_name
 # data.write_to_json_general_info('../processedData/' + case_name)
 
 

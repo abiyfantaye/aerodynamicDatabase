@@ -25,7 +25,7 @@ def find_high_rise_data(json_path, data_type, height_to_width, width_to_depth, w
     bldg_type = 'HR' # High rise building 
     
     #File naming convention
-    case_name = '{}_{}_{}_{}_{}_{}'.format(bldg_type, data_type, height_to_width, width_to_depth, wind_direction, roughness_length)
+    case_name = '{}_{}_{:.2f}_{:.2f}_{:.2f}_{:.3f}'.format(bldg_type, data_type, height_to_width, width_to_depth, wind_direction, roughness_length)
    
     if os.path.isfile(json_path + '/' + case_name + '_info'):
         return json_path + '/' + case_name
@@ -195,6 +195,14 @@ class WindLoadData:
         self._data_type = value
         
     @property
+    def file_name(self):
+        return self._file_name
+
+    @file_name.setter
+    def file_name(self, value):
+        self._file_name = value
+        
+    @property
     def pressure_coeffeints(self):
         return self._pressure_coeffeints
 
@@ -224,9 +232,10 @@ class HighRiseData(WindLoadData):
         file.write("\"lengthUnit\":%s," % self.length_unit)
         file.write("\"samplingRate\":%f," % self.sampling_rate)
         file.write("\"windDirection\":%f," % self.wind_direction);    
-        file.write("\"exposureType\":%s," % self.exposure_name) 
+        file.write("\"exposureType\":%s," % self.exposure_type) 
         file.write("\"roughnessLength\":%f," % self.roughness_length)
         file.write("\"dataType\":%s" % self.data_type)
+        file.write("\"fileName\":%s" % self.file_name)
         file.write("}")
         file.close()
     
@@ -246,9 +255,10 @@ class HighRiseData(WindLoadData):
         file.write("\"lengthUnit\":%s," % self.length_unit)
         file.write("\"samplingRate\":%f," % self.sampling_rate)
         file.write("\"windDirection\":%f," % self.wind_direction)
-        file.write("\"exposureType\":%s," % self.exposure_name) 
+        file.write("\"exposureType\":%s," % self.exposure_type) 
         file.write("\"roughnessLength\":%f," % self.roughness_length)
         file.write("\"dataType\":%s," % self.data_type)
+        file.write("\"fileName\":%s," % self.file_name)
         file.write("\"tapCoordinates\": [")
     
         for tapi in range(self.ntaps):
