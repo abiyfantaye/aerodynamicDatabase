@@ -6,31 +6,31 @@
   "type": "object",
   "properties": {
     "width": {
-      "description": "Lateral dimension of the building.",
+      "description": "Width of the building",
       "type": "number"
     },
     "depth": {
-      "description": "Depth of the building.",
+      "description": "Depth of the building",
       "type": "number"
     },
     "height": {
-      "description": "Height of the building.",
+      "description": "Height of the building",
       "type": "number"
     },
     "heightToWidth": {
-      "description": "The ratio of the building height to its width.",
+      "description": "The ratio of building height to its width",
       "type": "number"
     },
     "widthToDepth": {
-      "description": "The ratio of the building width to its depth.",
+      "description": "The ratio of building width to its depth",
       "type": "number"
     },
     "scale": {
-      "description": "Geometric scale of the model.",
+      "description": "Geometric scale of the model",
       "type": "number"
     },
     "exposureType": {
-      "description": "Terrain roughness for the surrounding environment.",
+      "description": "Terrain roughness for the surrounding environment",
       "type": "string",
       "enum": [
         "Flat",
@@ -40,11 +40,11 @@
       ]
     },
     "roughnessLength": {
-      "description": "Aerodynamic roughness length of the surrounding terrain in full-scale.",
+      "description": "Aerodynamic roughness length of the surrounding terrain in full-scale",
       "type": "number"
     },
     "dataType": {
-      "description": "Type of aerodynamic data.",
+      "description": "Type of aerodynamic data",
       "type": "string",
       "enum": [
         "Experiment",
@@ -53,7 +53,7 @@
       ]
     },
     "lengthUnit": {
-      "description": "Unit of length.",
+      "description": "Unit of length",
       "type": "string",
       "enum": [
         "m",
@@ -61,7 +61,7 @@
       ]
     },
     "timeUnit": {
-      "description": "Unit of time.",
+      "description": "Unit of time",
       "type": "string",
       "enum": [
         "sec",
@@ -70,19 +70,19 @@
       ]
     },
     "windSpeed": {
-      "description": "Design wind speed at the roof height.",
+      "description": "Wind speed at the roof height",
       "type": "number"
     },
     "duration": {
-      "description": "Duration of time series.",
+      "description": "Duration of time series",
       "type": "number"
     },
     "samplingRate": {
-      "description": "Sampling frequency of the time series.",
+      "description": "Sampling frequency of the time series",
       "type": "number"
     },
     "windDirection": {
-      "description": "Angle of incidence of the wind data with respect to azimuth.",
+      "description": "Angle of incidence of the wind data with respect to azimuth",
       "type": "number"
     }
   }
