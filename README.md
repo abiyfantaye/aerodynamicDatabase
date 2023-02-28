@@ -27,7 +27,8 @@ Each database entry is stored using two associated files. The first file ends wi
 "windDirection":0.000000,
 "exposureType":Open,
 "roughnessLength":0.030000,
-"dataType":CFD
+"dataType":CFD,
+"fileName":HR_CFD_1.50_2.00_0.00_0.030
 }
 ```
 
