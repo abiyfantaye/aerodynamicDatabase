@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://simcenter.designsafe-ci.org/",
+  "title": "SimCenter Aerodynamic Database",
+  "description": "Schema for SimCenter Aerodynamic Database",
+  "type": "object",
+  "properties": {
+    "width": {
+      "description": "Lateral dimension of the building",
+      "type": "number"
+    },
+    "depth": {
+      "description": "Depth of the building",
+      "type": "number"
+    },
+    "height": {
+      "description": "Height of the building",
+      "type": "number"
+    },
+    "scale": {
+      "description": "Geometric scale of the model",
+      "type": "number"
+    },
+    "exposureType": {
+      "description": "Terrain roughness for the surrounding environment",
+      "type": "string"
+    },
+    "dataType": {
+      "description": "Type of aerodynamic data",
+      "type": "string",
+      "enum": [
+        "Experiment",
+        "CFD",
+        "Full-scale"
+      ]
+    },
+    "windSpeed": {
+      "description": "Design wind speed at the roof height",
+      "type": "number"
+    },
+    "duration": {
+      "description": "Durataion of time series",
+      "type": "number"
+    },
+    "samplingFrequency": {
+      "description": "Sampling frequency of the time series",
+      "type": "number"
+    },
+    "windDirection": {
+      "description": "Angle of incidence of the wind data with respect to azimuth",
+      "type": "number"
+    }
+  }
+}

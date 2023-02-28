@@ -1,0 +1,89 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://simcenter.designsafe-ci.org/",
+  "title": "SimCenter Aerodynamic Database",
+  "description": "JSON Schema for SimCenter Aerodynamic Database",
+  "type": "object",
+  "properties": {
+    "width": {
+      "description": "Lateral dimension of the building.",
+      "type": "number"
+    },
+    "depth": {
+      "description": "Depth of the building.",
+      "type": "number"
+    },
+    "height": {
+      "description": "Height of the building.",
+      "type": "number"
+    },
+    "heightToWidth": {
+      "description": "The ratio of the building height to its width.",
+      "type": "number"
+    },
+    "widthToDepth": {
+      "description": "The ratio of the building width to its depth.",
+      "type": "number"
+    },
+    "scale": {
+      "description": "Geometric scale of the model.",
+      "type": "number"
+    },
+    "exposureType": {
+      "description": "Terrain roughness for the surrounding environment.",
+      "type": "string",
+      "enum": [
+        "Flat",
+        "Open",
+        "Suburb",
+        "Urban"
+      ]
+    },
+    "roughnessLength": {
+      "description": "Aerodynamic roughness length of the surrounding terrain in full-scale.",
+      "type": "number"
+    },
+    "dataType": {
+      "description": "Type of aerodynamic data.",
+      "type": "string",
+      "enum": [
+        "Experiment",
+        "CFD",
+        "FullScale"
+      ]
+    },
+    "lengthUnit": {
+      "description": "Unit of length.",
+      "type": "string",
+      "enum": [
+        "m",
+        "ft"
+      ]
+    },
+    "timeUnit": {
+      "description": "Unit of time.",
+      "type": "string",
+      "enum": [
+        "sec",
+        "min",
+        "hr"
+      ]
+    },
+    "windSpeed": {
+      "description": "Design wind speed at the roof height.",
+      "type": "number"
+    },
+    "duration": {
+      "description": "Duration of time series.",
+      "type": "number"
+    },
+    "samplingRate": {
+      "description": "Sampling frequency of the time series.",
+      "type": "number"
+    },
+    "windDirection": {
+      "description": "Angle of incidence of the wind data with respect to azimuth.",
+      "type": "number"
+    }
+  }
+}

@@ -19,31 +19,19 @@ import scipy.io as sio
 from pprint import pprint
 
 
-# A function to search a case from the aerodynamic database given the path of 
-# json files written.  
+# A function to search a case from the aerodynamic database given the path of
+# the directory containing the json files.  
 def find_high_rise_data(json_path, data_type, height_to_width, width_to_depth, wind_direction, roughness_length):
     
     bldg_type = 'HR' # High rise building 
     case_name = '{}_{}_{}_{}_{}_{}'.format(bldg_type, data_type, height_to_width, width_to_depth, wind_direction, roughness_length)
-    
-    if os.path.isfile(json_path + '/' + case_name + '_INFO'):
-        x = 1
+   
+    if os.path.isfile(json_path + '/' + case_name + '_info'):
+        return json_path + '/' + case_name
     else:
-        print("Can not be found in the aerodynamic data base")
-
-        
-    # if os.path.isdir(json_path + '/' + case_name):
-        # print("Reading from path: %s" % (json_path))
-        
-        # file_list = os.listdir(json_path)
-        
-        # for i in range(len(file_list)):
-        #     if case_name == file_list[i]:
-        #         break;
+        print("Case can not be found in the aerodynamic database")
+        return ""
     
-    
-    print(file_name) 
-
 class windLoadData:
     def __init__(self, data_type='CFD'):
         
@@ -221,7 +209,7 @@ class HighRiseData(windLoadData):
     
     ### Functions 
     def write_to_json_general_info(self, fine_name):
-        file = open(fine_name + '_INFO' ,"w")
+        file = open(fine_name + '_info' ,"w")
         file.write("{\n")
         
         file.write("\"windSpeed\":%f," % self.wind_speed)      
@@ -235,7 +223,7 @@ class HighRiseData(windLoadData):
         file.write("\"lengthUnit\":%s," % self.length_unit)
         file.write("\"samplingRate\":%f," % self.sampling_rate)
         file.write("\"windDirection\":%f," % self.wind_direction);    
-        file.write("\"exposureName\":%s," % self.exposure_name) 
+        file.write("\"exposureType\":%s," % self.exposure_name) 
         file.write("\"roughnessLength\":%f," % self.roughness_length)
         file.write("\"dataType\":%s" % self.data_type)
         file.write("}")
@@ -257,7 +245,7 @@ class HighRiseData(windLoadData):
         file.write("\"lengthUnit\":%s," % self.length_unit)
         file.write("\"samplingRate\":%f," % self.sampling_rate)
         file.write("\"windDirection\":%f," % self.wind_direction)
-        file.write("\"exposureName\":%s," % self.exposure_name) 
+        file.write("\"exposureType\":%s," % self.exposure_name) 
         file.write("\"roughnessLength\":%f," % self.roughness_length)
         file.write("\"dataType\":%s," % self.data_type)
         file.write("\"tapCoordinates\": [")
