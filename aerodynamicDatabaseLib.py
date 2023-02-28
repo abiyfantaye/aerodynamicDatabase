@@ -218,7 +218,7 @@ class HighRiseData(WindLoadData):
     
     ### Functions 
     def write_to_json_general_info(self, fine_name):
-        file = open(fine_name + '_info' ,"w")
+        file = open(fine_name + '_info.json' ,"w")
         file.write("{\n")
         
         file.write("\"windSpeed\":%f," % self.wind_speed)      
@@ -241,7 +241,7 @@ class HighRiseData(WindLoadData):
     
     ### Functions 
     def write_to_json_all(self, fine_name):
-        file = open(fine_name,"w")
+        file = open(fine_name + '.json',"w")
         file.write("{\n")
     
         file.write("\"windSpeed\":%f," % self.wind_speed)       
@@ -336,7 +336,7 @@ class HighRiseData(WindLoadData):
                 tap_xyz[tap,0] = self.depth/2.0 - (xLoc - 2*self.width - self.depth)
                 tap_xyz[tap,1] = self.width/2.0
                 
-        self.tap_xyz = tap_xyz
+        self.tap_coordinates = tap_xyz
         self.height_to_width = self.height/self.width
         self.width_to_depth = self.width/self.depth
         

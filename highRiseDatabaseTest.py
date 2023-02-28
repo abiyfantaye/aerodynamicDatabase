@@ -44,6 +44,7 @@ case_name = '{}_{}_{:.2f}_{:.2f}_{:.2f}_{:.3f}'.format(bldg_type, data_type, dat
 
 data.file_name = case_name
 data.write_to_json_general_info('../processedData/' + case_name)
+data.write_to_json_all('../processedData/' + case_name)
 
 
 # #Read and write for Flat exposure type
