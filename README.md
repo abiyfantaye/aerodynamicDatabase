@@ -38,7 +38,7 @@ Each database entry is named based on the following convention. The name contain
 
 ## Searching Database
 
-For searching the database generally the following information is required: 
+For searching a specific a particular entry in the database, generally the following information is required: 
 - Building type (high-rise or low-rise) 
 - Height to width ratio
 - Width to depth ratio
