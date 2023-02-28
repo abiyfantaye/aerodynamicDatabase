@@ -49,7 +49,7 @@
       "enum": [
         "Experiment",
         "CFD",
-        "FullScale"
+        "Field"
       ]
     },
     "lengthUnit": {
