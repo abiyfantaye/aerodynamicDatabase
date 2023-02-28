@@ -37,7 +37,7 @@ The other file ends with just *".json"* and holds all the information *"_info.js
 ## Database entry naming
 Each database entry is named based on the following convention. The name contains building type (high-rise or low-rise), data type (experiment, CFD or field), height to width ratio, width to depth ratio, wind direction, aerodynamic roughness length (z0). For example `HR_CFD_4_1.5_90_0.03` represents a high-rise building aerodynamic database extracted from CFD simulation with height/width and width/depth ratio of 4 and 1.5 for 90 degree wind direction in a terrain having 0.03 m aerodynamic roughness height. 
 
-## Searching database
+## Searching the database
 
 For searching a particular entry in the database, generally the following information is required: 
 - Building type (high-rise or low-rise) 
