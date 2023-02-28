@@ -5,9 +5,8 @@ Modficiation for CFD data: Abiy
 
 This is a temporary script file.
 """
-# python code to open the TPU .mat file
-# and put data into a SimCenter JSON file for
-# wind tunnel data
+# python code to read TPU .mat file and store 
+# data into a SimCenter JSON file
 
 import sys
 import os
@@ -18,7 +17,7 @@ import shutil
 import numpy as np
 import scipy.io as sio
 from pprint import pprint
-import windLoadData as wind
+import aerodynamicDatabaseLib as db
 
 scale = 1/400.0
 air_density = 1.225
@@ -29,7 +28,7 @@ length_unit = 'm'
 time_unit = 'sec'
 
 
-data = wind.HighRiseData(data_type=data_type)
+data = db.HighRiseData(data_type=data_type)
 
 data.scale = scale
 data.exposure_name = exposure_name

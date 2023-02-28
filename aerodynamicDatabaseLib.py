@@ -1,11 +1,10 @@
 """
 A python code to store and process aerodynamic data (pressure time-series) on
-buildings. Can be used with experimental or CFD data.  
+buildings. The data is written to SimCenter's JSON format. Can be used with 
+any type of data including experimental, CFD and field measurments.  
 
-Finally, the data is written to JSON format for further analysis. 
-
-Also, implements functions for post-processing of mean and peak loads and 
-responses on the building.
+Also, in the future will implements functions for post-processing of mean and 
+peak loads and responses of the building.
 """
 
 import sys
@@ -24,13 +23,15 @@ from pprint import pprint
 def find_high_rise_data(json_path, data_type, height_to_width, width_to_depth, wind_direction, roughness_length):
     
     bldg_type = 'HR' # High rise building 
+    
+    #File naming convention
     case_name = '{}_{}_{}_{}_{}_{}'.format(bldg_type, data_type, height_to_width, width_to_depth, wind_direction, roughness_length)
    
     if os.path.isfile(json_path + '/' + case_name + '_info'):
         return json_path + '/' + case_name
     else:
         print("Case can not be found in the aerodynamic database")
-        return ""
+        return None
     
 class windLoadData:
     def __init__(self, data_type='CFD'):
@@ -154,12 +155,12 @@ class windLoadData:
         self._wind_direction = value
 
     @property
-    def exposure_name(self):
-        return self._exposure_name
+    def exposure_type(self):
+        return self._exposure_type
 
-    @exposure_name.setter
-    def exposure_name(self, value):
-        self._exposure_name = value
+    @exposure_type.setter
+    def exposure_type(self, value):
+        self._exposure_type = value
         
     @property
     def roughness_length(self):
