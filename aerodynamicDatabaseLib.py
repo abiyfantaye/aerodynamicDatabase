@@ -1,7 +1,7 @@
 """
 A python code to store and process aerodynamic data (pressure time-series) on
 buildings. The data is written to SimCenter's JSON format. Can be used with 
-any type of data including experimental, CFD and field measurments.  
+any type of data including experimental, CFD and field measurements.  
 
 Also, in the future will implements functions for post-processing of mean and 
 peak loads and responses of the building.
@@ -35,21 +35,13 @@ def find_high_rise_data(json_path, data_type, height_to_width, width_to_depth, w
     
 class WindLoadData:
     def __init__(self, data_type='CFD'):
-        
-    # def __init__(self, height, width, depth, scale, 
-    #              tap_locations, duration, sampling_rate, 
-    #              air_density, wind_speed, wind_direction,  
-    #              exposure, data_type, units):
-        
         self.data_type = data_type
         self.air_density = 1.225
         self.length_unit = "m"
         self.time_unit = "sec"
         self.wind_direction = 0.0
 
-
     #Properties - getters and setters 
-    
     @property
     def building_type(self):
         return self._building_type
@@ -58,6 +50,22 @@ class WindLoadData:
     def building_type(self, value):
         self._building_type = value
         
+    @property
+    def roof_type(self):
+        return self._roof_type
+
+    @roof_type.setter
+    def roof_type(self, value):
+        self._roof_type = value
+
+    @property
+    def roof_slope(self):
+        return self._roof_slope
+
+    @roof_slope.setter
+    def roof_slope(self, value):
+        self._roof_slope = value
+
     @property
     def height(self):
         return self._height
@@ -169,6 +177,14 @@ class WindLoadData:
     @roughness_length.setter
     def roughness_length(self, value):
         self._roughness_length = value
+
+    @property
+    def power_law_alpha(self):
+        return self._power_law_alpha
+
+    @power_law_alpha.setter
+    def power_law_alpha(self, value):
+        self._power_law_alpha = value
         
     @property
     def length_unit(self):
@@ -203,39 +219,36 @@ class WindLoadData:
         self._file_name = value
         
     @property
-    def pressure_coeffeints(self):
-        return self._pressure_coeffeints
+    def pressure_coefficients(self):
+        return self._pressure_coefficients
 
-    @pressure_coeffeints.setter
-    def pressure_coeffeints(self, value):
-        self._pressure_coeffeints = value
-        
-
-class HighRiseData(WindLoadData):
-    def __init__(self, data_type):
-        WindLoadData.__init__(self, data_type)
-        
+    @pressure_coefficients.setter
+    def pressure_coefficients(self, value):
+        self._pressure_coefficients = value        
     
     ### Functions 
     def write_to_json_general_info(self, fine_name):
         file = open(fine_name + '_info.json' ,"w")
         file.write("{\n")
-        
-        file.write("\"windSpeed\":%f," % self.wind_speed)      
-        file.write("\"width\":%f," % self.width)
-        file.write("\"depth\":%f," % self.depth)
-        file.write("\"height\":%f," % self.height)
-        file.write("\"heightToWidth\":%f," % self.height_to_width)
-        file.write("\"widthToDepth\":%f," % self.width_to_depth)
-        file.write("\"duration\":%f," % self.duration)
-        file.write("\"timeUnit\":\"%s\"," % self.time_unit)
-        file.write("\"lengthUnit\":\"%s\"," % self.length_unit)
-        file.write("\"samplingRate\":%f," % self.sampling_rate)
-        file.write("\"windDirection\":%f," % self.wind_direction);    
-        file.write("\"exposureType\":\"%s\"," % self.exposure_type) 
-        file.write("\"roughnessLength\":%f," % self.roughness_length)
-        file.write("\"dataType\":\"%s\"," % self.data_type)
-        file.write("\"fileName\":\"%s\"" % self.file_name)
+        file.write("\"buildingType\":\"%s\",\n" % self.building_type)      
+        file.write("\"roofType\":\"%s\",\n" % self.roof_type)      
+        file.write("\"roofSlope\":%f,\n" % self.roof_slope)      
+        file.write("\"windSpeed\":%f,\n" % self.wind_speed)      
+        file.write("\"width\":%f,\n" % self.width)
+        file.write("\"depth\":%f,\n" % self.depth)
+        file.write("\"height\":%f,\n" % self.height)
+        file.write("\"heightToWidth\":%f,\n" % self.height_to_width)
+        file.write("\"widthToDepth\":%f,\n" % self.width_to_depth)
+        file.write("\"duration\":%f,\n" % self.duration)
+        file.write("\"timeUnit\":\"%s\",\n" % self.time_unit)
+        file.write("\"lengthUnit\":\"%s\",\n" % self.length_unit)
+        file.write("\"samplingRate\":%f,\n" % self.sampling_rate)
+        file.write("\"windDirection\":%f,\n" % self.wind_direction);    
+        file.write("\"exposureType\":\"%s\",\n" % self.exposure_type) 
+        file.write("\"roughnessLength\":%f,\n" % self.roughness_length)
+        file.write("\"powerLawAlpha \":%f,\n" % self.power_law_alpha)
+        file.write("\"dataType\":\"%s\",\n" % self.data_type)
+        file.write("\"fileName\":\"%s\"\n" % self.file_name)
         file.write("}")
         file.close()
     
@@ -243,22 +256,24 @@ class HighRiseData(WindLoadData):
     def write_to_json_all(self, fine_name):
         file = open(fine_name + '.json',"w")
         file.write("{\n")
-    
-        file.write("\"windSpeed\":%f," % self.wind_speed)       
-        file.write("\"width\":%f," % self.width)
-        file.write("\"depth\":%f," % self.depth)
-        file.write("\"height\":%f," % self.height)
-        file.write("\"heightToWidth\":%f," % self.height_to_width)
-        file.write("\"widthToDepth\":%f," % self.width_to_depth)
-        file.write("\"duration\":%f," % self.duration)
-        file.write("\"timeUnit\":\"%s\"," % self.time_unit)
-        file.write("\"lengthUnit\":\"%s\"," % self.length_unit)
-        file.write("\"samplingRate\":%f," % self.sampling_rate)
-        file.write("\"windDirection\":%f," % self.wind_direction)
-        file.write("\"exposureType\":\"%s\"," % self.exposure_type) 
-        file.write("\"roughnessLength\":%f," % self.roughness_length)
-        file.write("\"dataType\":\"%s\"," % self.data_type)
-        file.write("\"fileName\":\"%s\"," % self.file_name)
+        file.write("\"buildingType\":\"%s\",\n" % self.building_type)      
+        file.write("\"roofType\":\"%s\",\n" % self.roof_type)      
+        file.write("\"roofSlope\":%f,\n" % self.roof_slope) 
+        file.write("\"windSpeed\":%f,\n" % self.wind_speed)       
+        file.write("\"width\":%f,\n" % self.width)
+        file.write("\"depth\":%f,\n" % self.depth)
+        file.write("\"height\":%f,\n" % self.height)
+        file.write("\"heightToWidth\":%f,\n" % self.height_to_width)
+        file.write("\"widthToDepth\":%f,\n" % self.width_to_depth)
+        file.write("\"duration\":%f,\n" % self.duration)
+        file.write("\"timeUnit\":\"%s\",\n" % self.time_unit)
+        file.write("\"lengthUnit\":\"%s\",\n" % self.length_unit)
+        file.write("\"samplingRate\":%f,\n" % self.sampling_rate)
+        file.write("\"windDirection\":%f,\n" % self.wind_direction)
+        file.write("\"exposureType\":\"%s\",\n" % self.exposure_type) 
+        file.write("\"roughnessLength\":%f,\n" % self.roughness_length)
+        file.write("\"dataType\":\"%s\",\n" % self.data_type)
+        file.write("\"fileName\":\"%s\",\n" % self.file_name)
         file.write("\"tapCoordinates\": [")
     
         for tapi in range(self.ntaps):
@@ -269,16 +284,16 @@ class HighRiseData(WindLoadData):
         
         file.write(",\"pressureCoefficients\": [");
 
-        ntime_steps = self.pressure_coeffeints.shape[0]
+        ntime_steps = self.pressure_coefficients.shape[0]
     
         for tapi in range(self.ntaps):
             file.write("{\"id\": %d , \"data\":[" % (tapi + 1))
             for ti in range(ntime_steps-1):
-                file.write("%f," % self.pressure_coeffeints[ti, tapi])
+                file.write("%f," % self.pressure_coefficients[ti, tapi])
             if (tapi != self.ntaps-1):
-                file.write("%f]}," % self.pressure_coeffeints[ntime_steps-1, tapi])
+                file.write("%f]}," % self.pressure_coefficients[ntime_steps-1, tapi])
             else:
-                file.write("%f]}]" % self.pressure_coeffeints[ntime_steps-1, tapi])
+                file.write("%f]}]" % self.pressure_coefficients[ntime_steps-1, tapi])
     
         file.write("}")
         file.close()
@@ -302,7 +317,7 @@ class HighRiseData(WindLoadData):
     
         self.tap_locations = mat_contents['Location_of_measured_points'];
         self.ntaps = self.tap_locations.shape[1];
-        self.pressure_coeffeints = mat_contents['Wind_pressure_coefficients'];
+        self.pressure_coefficients = mat_contents['Wind_pressure_coefficients'];
         
         #Tap locations (x,y,z) in global coordinate system
         tap_xyz = np.zeros((self.ntaps, 3))
@@ -339,24 +354,3 @@ class HighRiseData(WindLoadData):
         self.tap_coordinates = tap_xyz
         self.height_to_width = self.height/self.width
         self.width_to_depth = self.width/self.depth
-        
-
-
-class LowRiseData(WindLoadData):
-    def __init__(self, roof_type, pitch_angle):
-        self.roof_type = roof_type
-        self.pitch_angle = pitch_angle
-        
-        if self.roof_type == "flat":
-            self.pitch_angle = 0
-    
-    #Functions 
-    def write_to_json(self, path):
-        NotImplemented
-        
-    #Functions 
-    def read_json(self, path):
-        NotImplemented
-    
-    def parse_matlab_file(self, path):
-        NotImplemented

@@ -1,0 +1,21 @@
+{
+"buildingType":"highRise",
+"roofType":"flat",
+"roofSlope":0.000000,
+"windSpeed":11.373700,
+"width":0.100000,
+"depth":0.100000,
+"height":0.400000,
+"heightToWidth":4.000000,
+"widthToDepth":1.000000,
+"duration":32.768000,
+"timeUnit":"sec",
+"lengthUnit":"m",
+"samplingRate":1000.000000,
+"windDirection":0.000000,
+"exposureType":"Open",
+"roughnessLength":0.030000,
+"powerLawAlpha ":0.166667,
+"dataType":"EXP",
+"fileName":"highRise_EXP_4.00_1.00_0.00_0.030"
+}
