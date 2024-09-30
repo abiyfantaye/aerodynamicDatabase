@@ -5,6 +5,32 @@
   "description": "JSON Schema for SimCenter Aerodynamic Database",
   "type": "object",
   "properties": {
+    "buildingType": {
+      "description": "Describes the building as low-rise, mid-rise or high-rise building",
+      "type": "string",
+      "enum": [
+        "lowRise",
+        "midRise",
+        "highRise"
+      ]
+    },
+    "roofType": {
+      "description": "Roof type,currently supports only three roof-types",
+      "type": "string",
+      "enum": [
+        "flat",
+        "hip",
+        "gable"
+      ]
+    },
+    "roofSlope": {
+      "description": "Slope of the roof of the building",
+      "type": "number"
+    },
+    "hasEaves": {
+      "description": "Checks whether if the roof has eaves or not",
+      "type": "roofSlope"
+    },
     "width": {
       "description": "Width of the building",
       "type": "number"

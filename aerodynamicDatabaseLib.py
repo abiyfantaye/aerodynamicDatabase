@@ -301,10 +301,11 @@ class WindLoadData:
     def read_json(self, path):
         raise NotImplementedError
     
-    def read_matlab_file(self, file_name):
+    def read_matlab_file_high_rise(self, file_name):
 
         mat_contents = sio.loadmat(file_name)
         
+        self.building_type =  "highRise"        
         self.height =  mat_contents['Building_height'][0][0]        
         self.width =  mat_contents['Building_breadth'][0][0]
         self.depth = mat_contents['Building_depth'][0][0]
@@ -315,9 +316,67 @@ class WindLoadData:
         # self.wind_direction = mat_contents['Wind_direction_angle'][0][0]
         self.wind_speed = float(mat_contents['Uh_AverageWindSpeed'][0])
     
-        self.tap_locations = mat_contents['Location_of_measured_points'];
-        self.ntaps = self.tap_locations.shape[1];
-        self.pressure_coefficients = mat_contents['Wind_pressure_coefficients'];
+        self.tap_locations = mat_contents['Location_of_measured_points']
+        self.ntaps = self.tap_locations.shape[1]
+        self.pressure_coefficients = mat_contents['Wind_pressure_coefficients']
+        
+        #Tap locations (x,y,z) in global coordinate system
+        tap_xyz = np.zeros((self.ntaps, 3))
+        self.tap_names = []
+        self.tap_faces = []
+        
+        for tap in range(self.ntaps):
+            xLoc = self.tap_locations[0][tap]
+            yLoc = self.tap_locations[1][tap]            
+            tag = self.tap_locations[2][tap]
+            face = self.tap_locations[3][tap]
+            
+            self.tap_names.append(tag)
+            self.tap_faces.append(face)
+            
+            tap_xyz[tap,2] = yLoc
+            
+            if face == 1:
+                tap_xyz[tap,0] = -self.depth/2.0
+                tap_xyz[tap,1] = self.width/2.0 - xLoc
+                
+            if face == 2:
+                tap_xyz[tap,0] = -self.depth/2.0 + (xLoc - self.width)
+                tap_xyz[tap,1] = -self.width/2.0
+                
+            if face == 3:
+                tap_xyz[tap,0] = self.depth/2.0
+                tap_xyz[tap,1] = -self.width/2.0 + (xLoc - self.width - self.depth)
+                
+            if face == 4:
+                tap_xyz[tap,0] = self.depth/2.0 - (xLoc - 2*self.width - self.depth)
+                tap_xyz[tap,1] = self.width/2.0
+                
+        self.tap_coordinates = tap_xyz
+        self.height_to_width = self.height/self.width
+        self.width_to_depth = self.width/self.depth
+
+
+    def read_matlab_file_low_rise(self, file_name):
+
+        mat_contents = sio.loadmat(file_name)
+        
+        self.building_type =  "lowRise"        
+        self.width =  mat_contents['Building_breadth'][0][0]
+        self.depth = mat_contents['Building_depth'][0][0]
+        self.depth = mat_contents['Building_depth'][0][0]
+        
+        self.depth = mat_contents['Building_depth'][0][0]
+
+        self.duration = mat_contents['Sample_period'][0][0]
+        self.sampling_rate = mat_contents['Sample_frequency'][0][0]
+        
+        # self.wind_direction = mat_contents['Wind_direction_angle'][0][0]
+        self.wind_speed = float(mat_contents['Uh_AverageWindSpeed'][0])
+    
+        self.tap_locations = mat_contents['Location_of_measured_points']
+        self.ntaps = self.tap_locations.shape[1]
+        self.pressure_coefficients = mat_contents['Wind_pressure_coefficients']
         
         #Tap locations (x,y,z) in global coordinate system
         tap_xyz = np.zeros((self.ntaps, 3))
