@@ -276,12 +276,19 @@ class WindLoadData:
         file.write("\"fileName\":\"%s\",\n" % self.file_name)
         file.write("\"tapCoordinates\": [")
     
-        for tapi in range(self.ntaps):
-            if (tapi == self.ntaps-1):
-                file.write("{\"id\":%d,\"x\":%f,\"y\":%f,\"z\":%f,\"face\":%d}]" % (self.tap_names[tapi], self.tap_coordinates[tapi,0], self.tap_coordinates[tapi,1], self.tap_coordinates[tapi,2], self.tap_faces[tapi]))
-            else:
-                file.write("{\"id\":%d,\"x\":%f,\"y\":%f,\"z\":%f,\"face\":%d}," % (self.tap_names[tapi], self.tap_coordinates[tapi,0], self.tap_coordinates[tapi,1], self.tap_coordinates[tapi,2], self.tap_faces[tapi]))
-        
+        if self.building_type=="lowRise" and self.data_type=="CFD":
+            for tapi in range(self.ntaps):
+                if (tapi == self.ntaps-1):
+                    file.write("{\"id\":%d,\"x\":%f,\"y\":%f,\"z\":%f,\"face\":%d}]" % (self.tap_names[tapi], self.tap_coordinates[tapi,0], self.tap_coordinates[tapi,1], self.tap_coordinates[tapi,2], -1))
+                else:
+                    file.write("{\"id\":%d,\"x\":%f,\"y\":%f,\"z\":%f,\"face\":%d}," % (self.tap_names[tapi], self.tap_coordinates[tapi,0], self.tap_coordinates[tapi,1], self.tap_coordinates[tapi,2], -1))
+        else:
+            for tapi in range(self.ntaps):
+                if (tapi == self.ntaps-1):
+                    file.write("{\"id\":%d,\"x\":%f,\"y\":%f,\"z\":%f,\"face\":%d}]" % (self.tap_names[tapi], self.tap_coordinates[tapi,0], self.tap_coordinates[tapi,1], self.tap_coordinates[tapi,2], self.tap_faces[tapi]))
+                else:
+                    file.write("{\"id\":%d,\"x\":%f,\"y\":%f,\"z\":%f,\"face\":%d}," % (self.tap_names[tapi], self.tap_coordinates[tapi,0], self.tap_coordinates[tapi,1], self.tap_coordinates[tapi,2], self.tap_faces[tapi]))
+            
         file.write(",\"pressureCoefficients\": [");
 
         ntime_steps = self.pressure_coefficients.shape[0]
@@ -411,5 +418,18 @@ class WindLoadData:
                 tap_xyz[tap,1] = self.width/2.0
                 
         self.tap_coordinates = tap_xyz
+        self.height_to_width = self.height/self.width
+        self.width_to_depth = self.width/self.depth
+
+
+    def read_csv_data(self, cp_file_name, tap_file_name):
+        self._tap_coordinates = np.loadtxt(fname=tap_file_name, dtype=float, delimiter=",")
+        
+        self.ntaps = self._tap_coordinates.shape[0]
+        names = np.arange(1, self.ntaps + 1, 1)
+        self.tap_names = names.astype(int)
+
+        self.pressure_coefficients = np.loadtxt(fname=cp_file_name, dtype=float, delimiter=",")
+        
         self.height_to_width = self.height/self.width
         self.width_to_depth = self.width/self.depth
